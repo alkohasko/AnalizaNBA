@@ -1,7 +1,7 @@
 import re
 import orodja
 
-with open(r"C:\FAKS\UVP\AnalizaNBA-projektna\AnalizaNBA\nba_source.html") as f:
+with open("AnalizaNBA/nba_source.html") as f:
     vsebina = f.read()
 
 
