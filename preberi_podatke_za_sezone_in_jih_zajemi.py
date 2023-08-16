@@ -146,7 +146,7 @@ def najdi_podatke_za_sezono_MVP(blok):
     podatki_za_sezono_MVP["Liga"] = najdi_v_html(vzorec_v_kateri_ligi, blok)
     podatki_za_sezono_MVP["Zmagovalec"] = najdi_v_html(vzorec_kdo_je_zmagal, blok)
     podatki_za_sezono_MVP["Starost"] = najdi_v_html(vzorec_starosti, blok)
-    podatki_za_sezono_MVP["Odigrane tekme"] = float(najdi_v_html(vzorec_stevila_odigranih_tekem, blok))
+    podatki_za_sezono_MVP["Odigrane tekme"] = int(najdi_v_html(vzorec_stevila_odigranih_tekem, blok))
     podatki_za_sezono_MVP["Točke na tekmo"] = float(najdi_v_html(vzorec_stevila_tock_na_tekmo, blok))
     podatki_za_sezono_MVP["Skoki na tekmo"] = float(najdi_v_html(vzorec_stevila_skokov_na_tekmo, blok))
     podatki_za_sezono_MVP["Asistence na tekmo"] = float(najdi_v_html(vzorec_stevila_asistenc_na_tekmo, blok))
