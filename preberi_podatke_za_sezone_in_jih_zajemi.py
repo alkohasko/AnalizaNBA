@@ -1,8 +1,9 @@
 import re
 import orodja
 
-with open("AnalizaNBA/nba_source.html") as f:
+with open("podatki_o_sezonah") as f:
     vsebina = f.read()
+
 
 
 vzorec = re.compile(
@@ -84,4 +85,109 @@ orodja.zapisi_csv(
         "Odstotek meta za tri točke"
     ],
     "obdelani_podatki/sezone.csv"
+)
+
+orodja.shrani_spletno_stran(url="https://www.basketball-reference.com/awards/mvp.html", ime_datoteke="MVP sezon", headers={"Accept-language": "en"})
+
+with open("MVP sezon") as f:
+    vsebina = f.read()
+
+vzorec_MVP = re.compile(
+    r'<tr ><th scope="row" class="left " data-stat="season" >.*'
+)
+
+vzorec_sezone_MVP = re.compile(
+    r'data-stat="season" ><a.*?>(?P<Sezona>.*?)</a></th>'
+)
+
+vzorec_v_kateri_ligi = re.compile(
+    r'data-stat="lg_id" ><a.*?>(?P<Liga>.*?)</a></td>'
+)
+
+vzorec_kdo_je_zmagal = re.compile(
+    r'data-stat="player" csk=".*?" ><a.*?">(?P<Zmagovalec>.*?)</a>'
+)
+
+#data-stat="player" csk="Erving,Julius" ><a href="/players/e/ervinju01.html">Julius Erving</a>&nbsp;(Tie)</td><
+
+vzorec_starosti = re.compile(
+    r'data-stat="age" >(?P<Starost_zmagovalca>.*?)</td>'
+)
+
+vzorec_stevila_odigranih_tekem = re.compile(
+    r'data-stat="g" >(?P<Stevilo_odigranih_tekem>.*?)</td>'
+)
+
+vzorec_stevila_tock_na_tekmo = re.compile(
+    r'data-stat="pts_per_g" >(?P<Stevilo_tock_na_tekmo>.*?)</td>'
+)
+
+vzorec_stevila_skokov_na_tekmo = re.compile(
+    r'data-stat="trb_per_g" >(?P<Stevilo_skokov_na_tekmo>.*?)</td>'
+)
+
+vzorec_stevila_asistenc_na_tekmo = re.compile(
+    r'data-stat="ast_per_g" >(?P<Stevilo_asistenc_na_tekmo>.*?)</td>'
+)
+
+vzorec_stevila_odvzetih_zog_na_tekmo = re.compile(
+    r'data-stat="stl_per_g" >(?P<Stevilo_odvzetih_zog_na_tekmo>.*?)</td>'
+)
+
+vzorec_stevila_blokad_na_tekmo = re.compile(
+    r'data-stat="blk_per_g" >(?P<Stevilo_blokad_na_tekmo>.*?)</td>'
+)
+
+
+def najdi_podatke_za_sezono_MVP(blok):
+    podatki_za_sezono_MVP = {}
+    
+    podatki_za_sezono_MVP["Sezona"] = najdi_v_html(vzorec_sezone_MVP, blok)
+    podatki_za_sezono_MVP["Liga"] = najdi_v_html(vzorec_v_kateri_ligi, blok)
+    podatki_za_sezono_MVP["Zmagovalec"] = najdi_v_html(vzorec_kdo_je_zmagal, blok)
+    podatki_za_sezono_MVP["Starost"] = najdi_v_html(vzorec_starosti, blok)
+    podatki_za_sezono_MVP["Odigrane tekme"] = float(najdi_v_html(vzorec_stevila_odigranih_tekem, blok))
+    podatki_za_sezono_MVP["Točke na tekmo"] = float(najdi_v_html(vzorec_stevila_tock_na_tekmo, blok))
+    podatki_za_sezono_MVP["Skoki na tekmo"] = float(najdi_v_html(vzorec_stevila_skokov_na_tekmo, blok))
+    podatki_za_sezono_MVP["Asistence na tekmo"] = float(najdi_v_html(vzorec_stevila_asistenc_na_tekmo, blok))
+
+    stevilo_odvzetih_zog = najdi_v_html(vzorec_stevila_odvzetih_zog_na_tekmo, blok)
+    if stevilo_odvzetih_zog:
+        podatki_za_sezono_MVP["Število odvzetih žog"] = float(stevilo_odvzetih_zog)
+    else:
+        podatki_za_sezono_MVP["Število odvzetih žog"] = None
+
+    stevilo_blokad = najdi_v_html(vzorec_stevila_blokad_na_tekmo, blok)
+    if stevilo_blokad:
+        podatki_za_sezono_MVP["Blokade"] = float(stevilo_blokad)
+    else:
+        podatki_za_sezono_MVP["Blokade"] = None
+
+    return podatki_za_sezono_MVP
+
+podatki_za_sezono_MVP_list = []
+for match in vzorec_MVP.finditer(vsebina):
+    blok = match.group(0)
+    podatki_za_sezono_MVP = najdi_podatke_za_sezono_MVP(blok)
+    podatki_za_sezono_MVP_list.append(podatki_za_sezono_MVP)
+
+for data in podatki_za_sezono_MVP_list:
+    print(data)
+
+orodja.zapisi_json(podatki_za_sezono_MVP_list, "obdelani_podatki_MVP/sezone.json")
+orodja.zapisi_csv(
+    podatki_za_sezono_MVP_list,
+    [
+        "Sezona",
+        "Liga",
+        "Zmagovalec",
+        "Starost",
+        "Odigrane tekme",
+        "Točke na tekmo",
+        "Skoki na tekmo",
+        "Asistence na tekmo",
+        "Število odvzetih žog",
+        "Blokade"
+    ],
+    "obdelani_podatki_MVP/sezone.csv",
 )
