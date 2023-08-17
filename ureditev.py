@@ -13,4 +13,3 @@ def graf_metov():
     plt.title("Število metov skozi sezone")
     plt.xticks([x[0], x[-1]], rotation=45)
     plt.show()
-
