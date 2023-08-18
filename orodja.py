@@ -11,6 +11,9 @@ def pripravi_imenik(ime_datoteke):
     if imenik:
         os.makedirs(imenik, exist_ok=True)
 
+new_directory = r"C:\FAKS\UVP\AnalizaNBA-projektna\AnalizaNBA"
+os.chdir(new_directory)
+
 
 def shrani_spletno_stran(url, ime_datoteke, vsili_prenos=False, headers=None):
     '''Vsebino strani na danem naslovu shrani v datoteko z danim imenom.'''
