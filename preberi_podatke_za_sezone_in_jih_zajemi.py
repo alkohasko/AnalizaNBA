@@ -71,7 +71,7 @@ for match in vzorec.finditer(vsebina):
 for data in podatki_za_sezono_list:
     print(data)
 
-#orodja.shrani_spletno_stran(url="https://www.basketball-reference.com/leagues/NBA_stats_per_game.html", ime_datoteke="podatki_o_sezonah", headers={"Accept-language": "en"})
+orodja.shrani_spletno_stran(url="https://www.basketball-reference.com/leagues/NBA_stats_per_game.html", ime_datoteke="podatki_o_sezonah", headers={"Accept-language": "en"})
 #orodja.zapisi_json(podatki_za_sezono_list, "obdelani_podatki/sezone.json")
 orodja.zapisi_csv(
     podatki_za_sezono_list,
