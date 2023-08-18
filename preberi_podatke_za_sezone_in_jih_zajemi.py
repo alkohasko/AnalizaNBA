@@ -94,15 +94,10 @@ with open("MVP sezon") as f:
     vsebina = f.read()
 
 vzorec_MVP = re.compile(
-    r'<tr ><th scope="row" class="left " data-stat="season" >.*'
+    r'<tr ><th scope="row" class="left " data-stat="season" >.*?data-stat=.*?"lg_id" .*?>NBA.*'
 )
-
 vzorec_sezone_MVP = re.compile(
     r'data-stat="season" ><a.*?>(?P<Sezona>.*?)</a></th>'
-)
-
-vzorec_v_kateri_ligi = re.compile(
-    r'data-stat="lg_id" ><a.*?>(?P<Liga>.*?)</a></td>'
 )
 
 vzorec_kdo_je_zmagal = re.compile(
@@ -144,7 +139,6 @@ def najdi_podatke_za_sezono_MVP(blok):
     podatki_za_sezono_MVP = {}
     
     podatki_za_sezono_MVP["Sezona"] = najdi_v_html(vzorec_sezone_MVP, blok)
-    podatki_za_sezono_MVP["Liga"] = najdi_v_html(vzorec_v_kateri_ligi, blok)
     podatki_za_sezono_MVP["Zmagovalec"] = najdi_v_html(vzorec_kdo_je_zmagal, blok)
     podatki_za_sezono_MVP["Starost"] = najdi_v_html(vzorec_starosti, blok)
     podatki_za_sezono_MVP["Odigrane tekme"] = int(najdi_v_html(vzorec_stevila_odigranih_tekem, blok))
@@ -180,7 +174,6 @@ orodja.zapisi_csv(
     podatki_za_sezono_MVP_list,
     [
         "Sezona",
-        "Liga",
         "Zmagovalec",
         "Starost",
         "Odigrane tekme",
@@ -190,5 +183,5 @@ orodja.zapisi_csv(
         "Število odvzetih žog",
         "Blokade"
     ],
-    "obdelani_podatki_MVP/sezone.csv",
+    "obdelani_podatki_MVP/sezone_MVP.csv",
 )
