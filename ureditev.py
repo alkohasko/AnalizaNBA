@@ -55,6 +55,26 @@ def starost_MVP():
 
 #starost_MVP()
 
+def najstarejsi_MVP():
+    sezone_MVP = pd.read_csv(r"C:\FAKS\UVP\AnalizaNBA-projektna\AnalizaNBA\obdelani_podatki_MVP\sezone_MVP.csv", index_col="Sezona")
+    
+    
+    indeks_najstarejsega_zmagovalca = sezone_MVP["Starost"].idxmax()
+    statistika_najstarejsega_zmagovalca = sezone_MVP.loc[indeks_najstarejsega_zmagovalca]
+    return statistika_najstarejsega_zmagovalca
+
+#print(najstarejsi_MVP())
+
+def najmlajsi_MVP():
+    sezone_MVP = pd.read_csv(r"C:\FAKS\UVP\AnalizaNBA-projektna\AnalizaNBA\obdelani_podatki_MVP\sezone_MVP.csv", index_col="Sezona")
+    
+    
+    indeks_najmlajsega_zmagovalca = sezone_MVP["Starost"].idxmin()
+    statistika_najmlajsega_zmagovalca = sezone_MVP.loc[indeks_najmlajsega_zmagovalca]
+    return statistika_najmlajsega_zmagovalca
+
+#print(najmlajsi_MVP())
+
 def koliko_tekem_MVP():
     sezone_MVP = pd.read_csv(r"C:\FAKS\UVP\AnalizaNBA-projektna\AnalizaNBA\obdelani_podatki_MVP\sezone_MVP.csv", index_col="Sezona")
     
@@ -89,3 +109,29 @@ def sestevek_vseh_statistik():
     plt.show()
 
 #sum_stats_for_each_season()
+
+def najslabsi_MVP():
+    sezone_MVP = pd.read_csv(r"C:\FAKS\UVP\AnalizaNBA-projektna\AnalizaNBA\obdelani_podatki_MVP\sezone_MVP.csv")
+    
+    izbrana_statistika = ["Točke na tekmo", "Asistence na tekmo", "Število odvzetih žog", "Skoki na tekmo", "Blokade"]
+    sezone_MVP["Skupne statistike"] = sezone_MVP[izbrana_statistika].sum(axis=1)
+    
+    indeks_najslabsega = sezone_MVP["Skupne statistike"].idxmin()
+    statistika_najslabsega = sezone_MVP.loc[indeks_najslabsega]
+    
+    return statistika_najslabsega
+
+#print(najslabsi_MVP())
+
+def najsbolsi_MVP():
+    sezone_MVP = pd.read_csv(r"C:\FAKS\UVP\AnalizaNBA-projektna\AnalizaNBA\obdelani_podatki_MVP\sezone_MVP.csv")
+    
+    izbrana_statistika = ["Točke na tekmo", "Asistence na tekmo", "Število odvzetih žog", "Skoki na tekmo", "Blokade"]
+    sezone_MVP["Skupne statistike"] = sezone_MVP[izbrana_statistika].sum(axis=1)
+    
+    indeks_najbolsega = sezone_MVP["Skupne statistike"].idxmax()
+    statistika_najbolsega = sezone_MVP.loc[indeks_najbolsega]
+    
+    return statistika_najbolsega
+
+#print(najsbolsi_MVP())
