@@ -8,16 +8,17 @@ def graf_metov():
     y2 = sezone["Število zadetih metov"]
     y3 = sezone["Število točk na tekmo"]
     
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 6))
+    
+    plt.plot(x, y3, label = "Število točk")
     plt.plot(x, y1, label = "Število metov")
     plt.plot(x, y2, label = "Število zadetih metov")
-    plt.plot(x, y3, label = "Število točk")
     plt.xlabel("Sezona")
-    plt.ylabel("Število metov")
-    plt.title("Število metov skozi sezone")
-    plt.xticks([x[0]] + list(x[:-1:10]) + [x[-1]], rotation=45)
+    plt.ylabel("Število metov in točk")
+    plt.title("Število metov in točk na sezono")
+    plt.xticks([x[0]] + list(x[6::10]) + [x[-1]], rotation=45)
     plt.gca().invert_xaxis()
-    plt.legend()
+    plt.legend(loc="upper right")
     plt.show()
 
 #graf_metov()
@@ -29,11 +30,11 @@ def spreminjanje_odstokov_metov():
     y2 = sezone["Odstotek prostih metov"]
     y3 = sezone["Odstotek meta za tri točke"]
 
-    plt.figure(figsize=(10, 6))
-    plt.plot(x, y1, label = "Odstotek meta")
+    plt.figure(figsize=(12, 6))
     plt.plot(x, y2, label = "Odstotek prostih metov")
+    plt.plot(x, y1, label = "Odstotek meta")
     plt.plot(x, y3, label = "Odstotek meta za tri točke")
-    plt.xticks([x[0]] + list(x[:-1:10]) + [x[-1]], rotation=45)
+    plt.xticks([x[0]] + list(x[6::10]) + [x[-1]], rotation=45)
     plt.gca().invert_xaxis()
     plt.legend()
     plt.show()
@@ -45,7 +46,7 @@ def starost_MVP():
     
     age_counts = sezone_MVP["Starost"].value_counts().sort_index()
     
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 6))
     age_counts.plot(kind="bar")
     plt.xlabel("Starost")
     plt.ylabel("Število MVP-jev")
@@ -57,8 +58,7 @@ def starost_MVP():
 
 def najstarejsi_MVP():
     sezone_MVP = pd.read_csv(r"C:\FAKS\UVP\AnalizaNBA-projektna\AnalizaNBA\obdelani_podatki_MVP\sezone_MVP.csv", index_col="Sezona")
-    
-    
+       
     indeks_najstarejsega_zmagovalca = sezone_MVP["Starost"].idxmax()
     statistika_najstarejsega_zmagovalca = sezone_MVP.loc[indeks_najstarejsega_zmagovalca]
     return statistika_najstarejsega_zmagovalca
@@ -67,7 +67,6 @@ def najstarejsi_MVP():
 
 def najmlajsi_MVP():
     sezone_MVP = pd.read_csv(r"C:\FAKS\UVP\AnalizaNBA-projektna\AnalizaNBA\obdelani_podatki_MVP\sezone_MVP.csv", index_col="Sezona")
-    
     
     indeks_najmlajsega_zmagovalca = sezone_MVP["Starost"].idxmin()
     statistika_najmlajsega_zmagovalca = sezone_MVP.loc[indeks_najmlajsega_zmagovalca]
@@ -81,12 +80,12 @@ def koliko_tekem_MVP():
     x = sezone_MVP.index
     y = sezone_MVP["Odigrane tekme"]
 
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 6))
     plt.plot(x, y)
     plt.xlabel("Sezona")
     plt.ylabel("Število odigranih tekem")
     plt.title("Število odigranih tekem MVP-jev")
-    plt.xticks([x[0]] + list(x[:-1:10]) + [x[-1]], rotation=45)
+    plt.xticks([x[0]] + list(x[7::10]) + [x[-1]], rotation=45)
     plt.gca().invert_xaxis()
     plt.show()
 
@@ -100,7 +99,7 @@ def sestevek_vseh_statistik():
     
     grouped_stats = sezone_MVP.groupby("Sezona")["Skupne statistike"].sum()
 
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(12, 6))
     grouped_stats.plot(kind="bar")
     plt.xlabel("Sezona")
     plt.ylabel("Skupna vsota statistik")
@@ -108,7 +107,7 @@ def sestevek_vseh_statistik():
     plt.xticks(rotation=90)
     plt.show()
 
-#sum_stats_for_each_season()
+#sestevek_vseh_statistik()
 
 def najslabsi_MVP():
     sezone_MVP = pd.read_csv(r"C:\FAKS\UVP\AnalizaNBA-projektna\AnalizaNBA\obdelani_podatki_MVP\sezone_MVP.csv")
