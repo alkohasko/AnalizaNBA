@@ -6,8 +6,6 @@ orodja.shrani_spletno_stran(url="https://www.basketball-reference.com/leagues/NB
 with open("podatki_o_sezonah") as f:
     vsebina = f.read()
 
-
-
 vzorec = re.compile(
     r'<tr ><th scope="row" class="right " data-stat="ranker".*'
 )
@@ -70,10 +68,9 @@ for match in vzorec.finditer(vsebina):
     podatki_za_sezono = najdi_podatke_za_sezono(blok)
     podatki_za_sezono_list.append(podatki_za_sezono)
 
-for data in podatki_za_sezono_list:
-    print(data)
+#for data in podatki_za_sezono_list:
+#    print(data)
 
-#orodja.zapisi_json(podatki_za_sezono_list, "obdelani_podatki/sezone.json")
 orodja.zapisi_csv(
     podatki_za_sezono_list,
     [
@@ -87,6 +84,8 @@ orodja.zapisi_csv(
     ],
     "obdelani_podatki/sezone.csv"
 )
+
+
 
 orodja.shrani_spletno_stran(url="https://www.basketball-reference.com/awards/mvp.html", ime_datoteke="MVP sezon", headers={"Accept-language": "en"})
 
@@ -103,8 +102,6 @@ vzorec_sezone_MVP = re.compile(
 vzorec_kdo_je_zmagal = re.compile(
     r'data-stat="player" csk=".*?" ><a.*?">(?P<Zmagovalec>.*?)</a>'
 )
-
-#data-stat="player" csk="Erving,Julius" ><a href="/players/e/ervinju01.html">Julius Erving</a>&nbsp;(Tie)</td><
 
 vzorec_starosti = re.compile(
     r'data-stat="age" >(?P<Starost_zmagovalca>.*?)</td>'
@@ -166,10 +163,9 @@ for match in vzorec_MVP.finditer(vsebina):
     podatki_za_sezono_MVP = najdi_podatke_za_sezono_MVP(blok)
     podatki_za_sezono_MVP_list.append(podatki_za_sezono_MVP)
 
-for data in podatki_za_sezono_MVP_list:
-    print(data)
+#for data in podatki_za_sezono_MVP_list:
+#    print(data)
 
-#orodja.zapisi_json(podatki_za_sezono_MVP_list, "obdelani_podatki_MVP/sezone.json")
 orodja.zapisi_csv(
     podatki_za_sezono_MVP_list,
     [
