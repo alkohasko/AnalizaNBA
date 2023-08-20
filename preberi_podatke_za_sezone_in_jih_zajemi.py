@@ -63,8 +63,8 @@ def najdi_podatke_za_sezono(blok):
 
 
 podatki_za_sezono_list = []
-for match in vzorec.finditer(vsebina):
-    blok = match.group(0)
+for zadetek in vzorec.finditer(vsebina):
+    blok = zadetek.group(0)
     podatki_za_sezono = najdi_podatke_za_sezono(blok)
     podatki_za_sezono_list.append(podatki_za_sezono)
 
@@ -158,8 +158,8 @@ def najdi_podatke_za_sezono_MVP(blok):
     return podatki_za_sezono_MVP
 
 podatki_za_sezono_MVP_list = []
-for match in vzorec_MVP.finditer(vsebina):
-    blok = match.group(0)
+for zadetek in vzorec_MVP.finditer(vsebina):
+    blok = zadetek.group(0)
     podatki_za_sezono_MVP = najdi_podatke_za_sezono_MVP(blok)
     podatki_za_sezono_MVP_list.append(podatki_za_sezono_MVP)
 
